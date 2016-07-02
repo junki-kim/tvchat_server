@@ -9,6 +9,8 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 })); 
 
+app.set('view engine', 'pug');
+
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
@@ -17,6 +19,7 @@ app.use(session({
 
 app.get('/', function(req, res){
     if(req.session.user){
+      console.log("session name : " + req.session.user.name);
       res.redirect('/chat');
     }
     else
@@ -36,8 +39,8 @@ app.post('/',function(req,res,next){
 
 app.get('/chat', function(req, res){
   if(req.session.user){
-      //res.render("chat", {user: req.session.user});
-      res.sendFile(__dirname + '/chat.html');
+      res.render("chat", { username : req.session.user.name });
+      //res.sendFile(__dirname + '/chat.html');
   }
   else
    res.redirect('/');
