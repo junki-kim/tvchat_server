@@ -13,7 +13,7 @@ html
       #messages li:nth-child(odd) { background: #eee; }
   body
     ul#messages
-    form(action='')
+    form
       input#m(autocomplete='off')
       button Send
 
@@ -25,7 +25,7 @@ script.
   //msg 송신
   $('form').submit(function(){
     var msg = {
-      id : #{username},
+      id : "#{username}",
       message : $('#m').val()
     };
     socket.emit('chat message', msg);

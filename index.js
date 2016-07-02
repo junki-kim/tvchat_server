@@ -23,7 +23,9 @@ app.get('/', function(req, res){
       res.redirect('/chat');
     }
     else
-      res.sendFile(__dirname + '/index.html');
+    {
+      res.render("index");
+    }
 });
 
 app.post('/',function(req,res,next){
@@ -40,10 +42,10 @@ app.post('/',function(req,res,next){
 app.get('/chat', function(req, res){
   if(req.session.user){
       res.render("chat", { username : req.session.user.name });
-      //res.sendFile(__dirname + '/chat.html');
   }
-  else
-   res.redirect('/');
+  else{
+    res.redirect('/');
+  }
 });
 
 io.on('connection', function(socket){
