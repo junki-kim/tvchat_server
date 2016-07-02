@@ -36,17 +36,17 @@ app.post('/',function(req,res,next){
 
 app.get('/chat', function(req, res){
   if(req.session.user){
+      //res.render("chat", {user: req.session.user});
       res.sendFile(__dirname + '/chat.html');
   }
   else
    res.redirect('/');
 });
 
-
-
 io.on('connection', function(socket){
   socket.broadcast.emit('hi');
 
+  //server 에서 받은 message broadcasting
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
     console.log(msg);
