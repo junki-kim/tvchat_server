@@ -1,20 +1,55 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var session = require('express-session');
+var bodyParser = require('body-parser')
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+})); 
+
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
+}));
 
 app.get('/', function(req, res){
-  res.send('Main Page');
+    if(req.session.user){
+      res.redirect('/chat');
+    }
+    else
+      res.sendFile(__dirname + '/index.html');
+});
+
+app.post('/',function(req,res,next){
+  console.log("[log]username : " + req.body.username);
+
+  var user = {
+    name : req.body.username
+  };  // user name from browser
+
+  req.session.user = user;
+  res.redirect('/chat');
 });
 
 app.get('/chat', function(req, res){
-  res.sendFile(__dirname + '/index.html');
+  if(req.session.user){
+      res.sendFile(__dirname + '/chat.html');
+  }
+  else
+   res.redirect('/');
 });
+
+
 
 io.on('connection', function(socket){
   socket.broadcast.emit('hi');
 
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
+    console.log(msg);
   });
 });
 
