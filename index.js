@@ -29,7 +29,7 @@ app.get('/', function(req, res){
 });
 
 app.post('/',function(req,res,next){
-  console.log("[log]username : " + req.body.username);
+  console.log("[Log]username : " + req.body.username);
 
   var user = {
     name : req.body.username
