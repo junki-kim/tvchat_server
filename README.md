@@ -1,2 +1,8 @@
 # chatserver
-type "$npm install --save express" after clone this project 
+
+#1. install express
+$npm install --save express 
+
+#2. install tsd
+$npm install -g tsd
+$tsd query node express  --action install
