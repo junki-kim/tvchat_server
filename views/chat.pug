@@ -16,7 +16,7 @@ html
     form
           input#m(autocomplete='off')
           button Send
-
+          
 script(src="/socket.io/socket.io.js")
 script(src="http://code.jquery.com/jquery-1.11.1.js")
 script.
@@ -25,7 +25,7 @@ script.
   //msg 송신
   $('form').submit(function(){
     var msg = {
-      id : "#{username}",
+      id : "#{username}" + "#{sdf}",
       message : $('#m').val()
     };
     socket.emit('chat message', msg);

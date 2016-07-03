@@ -41,7 +41,7 @@ app.post('/',function(req,res,next){
 
 app.get('/chat', function(req, res){
   if(req.session.user){
-      res.render("chat", { username : req.session.user.name });
+      res.render("chat", { username : req.session.user.name , sdf:"11"});
   }
   else{
     res.redirect('/');
