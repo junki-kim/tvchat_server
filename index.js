@@ -14,7 +14,10 @@ app.set('view engine', 'pug');
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 1000 * 60 * 60 // 쿠키 유효기간 1시간
+  }
 }));
 
 app.get('/', function(req, res){
@@ -41,11 +44,19 @@ app.post('/',function(req,res,next){
 
 app.get('/chat', function(req, res){
   if(req.session.user){
-      res.render("chat", { username : req.session.user.name , sdf:"11"});
+      res.render("chat", { username : req.session.user.name});
   }
   else{
     res.redirect('/');
   }
+});
+
+app.get('/logout', function(req, res){
+  if(req.session.user){
+      req.session.destroy();
+      res.clearCookie('keyboard cat');
+  }
+  res.redirect('/');
 });
 
 io.on('connection', function(socket){

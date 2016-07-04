@@ -7,11 +7,13 @@ html
       body { font: 13px Helvetica, Arial; }
       form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
       form input { border: 0; width : 90%; padding: 10px; margin-right: .5%; }
-      form button { width : 7%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      form button { width : 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; }
       #messages li:nth-child(odd) { background: #eee; }
+      #logoutButton {position: relative; float:right; margin-right:0px;background: rgb(130, 224, 255); border: none; padding: 10px;}
   body
+    button#logoutButton Logout
     ul#messages
     form
           input#m(autocomplete='off')
@@ -25,7 +27,7 @@ script.
   //msg 송신
   $('form').submit(function(){
     var msg = {
-      id : "#{username}" + "#{sdf}",
+      id : "#{username}",
       message : $('#m').val()
     };
     socket.emit('chat message', msg);
@@ -37,4 +39,14 @@ script.
   socket.on('chat message', function(msg){
     var decodedMsg = msg.id + " : " + msg.message;
     $('#messages').append($('<li>').text(decodedMsg));
+  });
+
+  //logout button
+  $('#logoutButton').click(function(){
+    var msg = {
+      id : "#{username}",
+      message : "#{username} has left the room."
+    };
+    socket.emit('chat message', msg);
+    window.location.replace("http://localhost:3000/logout");
   });
