@@ -1,11 +1,9 @@
 # chatserver
 
-#1. install express
-$npm install --save express 
+#1. install package
+$npm install
 
 #2. install tsd
 $npm install -g tsd
 $tsd query node express  --action install
 
-#3. install package
-$npm install
